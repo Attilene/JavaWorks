@@ -25,11 +25,31 @@ public class Main {
 //        Task1_Matrix.matrout(matrix.transpon());
 //        Task1_Matrix.matrout(matrix.stepen(3));
 
+//        ЗАДАНИЕ 2 ВЕКТОР
+
+        double[] t1 = {3, -3.5, 9};
+        double[] t2 = {-1, 7, 0};
+        Task2_Vector vect1 = new Task2_Vector(t1);
+        Task2_Vector vect2 = new Task2_Vector(t2);
+        Task2_Vector[] arrv = new Task2_Vector[5];
+        System.out.format("%.2f%n", vect1.length());
+        Task2_Vector.vectorOut(vect1.plus(vect2));
+        Task2_Vector.vectorOut(vect1.minus(vect2));
+        System.out.println();
+        arrv = Task2_Vector.arrvec(5);
+        for (int i = 0; i < 5; i++) {
+            Task2_Vector.vectorOut(arrv[i]);
+        }
+        System.out.println();
+        System.out.format("%.2f%n", vect1.angle(vect2));
+        System.out.format("%.2f%n", vect1.scalyar(vect2));
+        Task2_Vector.vectorOut(vect1.mult(vect2));
+
 //        ЗАДАНИЕ 5 ВЕС ЧИСЕЛ
 
-        int[] count = {2, 4, 3, 0, 10};
-        int[] weight = {1, 3, 12, 9, 5};
-        Task5_Weight mass = new Task5_Weight(count, weight);
-        System.out.println(mass.RandomWeight());
+//        int[] count = {2, 4, 3, 0, 10};
+//        int[] weight = {1, 3, 12, 9, 5};
+//        Task5_Weight mass = new Task5_Weight(count, weight);
+//        System.out.println(mass.RandomWeight());
     }
 }
