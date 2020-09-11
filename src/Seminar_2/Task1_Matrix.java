@@ -12,6 +12,7 @@ public class Task1_Matrix {
     }
 
     public double[][] plus(double[][] matrix2) {
+//        Метод для сложения матриц
         double[][] matrix3 = matr3();
         for (int i = 0; i < matrix3.length; i++) {
             for (int j = 0; j < matrix3[i].length; j++) {
@@ -22,6 +23,7 @@ public class Task1_Matrix {
     }
 
     public double[][] minus(double[][] matrix2) {
+//        Метод для вычитания матриц
         double[][] matrix3 = matr3();
         for (int i = 0; i < matrix3.length; i++) {
             for (int j = 0; j < matrix3[i].length; j++) {
@@ -32,6 +34,7 @@ public class Task1_Matrix {
     }
 
     public double[][] mulcount(double c) {
+//        Метод для умножения матрицы на число
         double[][] matrix3 = matr3();
         for (int i = 0; i < matrix3.length; i++) {
             for (int j = 0; j < matrix3[i].length; j++) {
@@ -42,6 +45,7 @@ public class Task1_Matrix {
     }
 
     public double[][] mulmat(double[][] matrix2) {
+//        Метод для умножения двух матриц
         double sumel = 0;
         double[] buf = new double[matrix2[0].length];
         double[][] matrix3 = new double[leni][buf.length];
@@ -61,6 +65,7 @@ public class Task1_Matrix {
     }
 
     public double[][] transpon() {
+//        Метод для транспонирования матрицы
         double[][] matrix3 = new double[lenj][leni];
         double[] buf = new double[lenj];
         for (int j = 0; j < lenj; j++) {
@@ -75,6 +80,7 @@ public class Task1_Matrix {
     }
 
     public double[][] stepen(double st) {
+//        Метод для возведения матрицы в степень st
         double sumel = 0;
         double[] buf = new double[lenj];
         double[][] matrix3 = matr3();
@@ -96,6 +102,7 @@ public class Task1_Matrix {
     }
 
     public double[][] matr3() {
+//        Метод для создания буферной матрицы
         double[][] matrix3 = new double[leni][lenj];
         for (int i = 0; i < leni; i++) {
             for (int j = 0; j < lenj; j++) {
@@ -106,6 +113,7 @@ public class Task1_Matrix {
     }
 
     public static void matrout(double[][] matrix) {
+//        Метод для вывода матрицы в консоль
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
                 System.out.print(matrix[i][j] + " ");
