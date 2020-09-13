@@ -1,7 +1,9 @@
 import Seminar_2.*;
 import Seminar_1.*;
-import Seminar_2.Task3_Hierarchy.*;
-import Seminar_2.Task3_Hierarchy.Shape;
+//import Seminar_2.Task3_Hierarchy.*;
+//import Seminar_2.Task3_Hierarchy.Shape;
+import Seminar_2.Task4_Abstract_Hierarchy.*;
+import Seminar_2.Task4_Abstract_Hierarchy.Shape;
 
 import java.awt.*;
 
@@ -49,6 +51,22 @@ public class Main {
 
 //        ЗАДАНИЕ 3 Иерархия классов
 
+//        Shape pir = new Piramid(13, 3);
+//        Shape cyl = new Cylinder(1, 8);
+//        Shape paral = new Parallelepiped(15, 3);
+//        Shape ball = new Ball(3);
+//        Box box = new Box();
+//        box.add(pir);
+//        System.out.println(box.getVolume());
+//        box.add(cyl);
+//        System.out.println(box.getVolume());
+//        box.add(paral);
+//        System.out.println(box.getVolume());
+//        box.add(ball);
+//        System.out.println(box.getVolume());
+
+//        ЗАДАНИЕ 4 Абстрактная иерархия классов
+
         Shape pir = new Piramid(13, 3);
         Shape cyl = new Cylinder(1, 8);
         Shape paral = new Parallelepiped(15, 3);
@@ -63,7 +81,6 @@ public class Main {
         box.add(ball);
         System.out.println(box.getVolume());
 
-//        ЗАДАНИЕ 4 Абстрактная иерархия классов
 
 //        ЗАДАНИЕ 5 ВЕС ЧИСЕЛ
 
