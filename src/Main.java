@@ -4,6 +4,7 @@ import Seminar_1.*;
 //import Seminar_2.Task3_Hierarchy.Shape;
 import Seminar_2.Task4_Abstract_Hierarchy.*;
 import Seminar_2.Task4_Abstract_Hierarchy.Shape;
+import Seminar_2.Task6_Seabattle.*;
 
 import java.awt.*;
 
@@ -67,20 +68,19 @@ public class Main {
 
 //        ЗАДАНИЕ 4 Абстрактная иерархия классов
 
-        Shape pir = new Piramid(13, 3);
-        Shape cyl = new Cylinder(1, 8);
-        Shape paral = new Parallelepiped(15, 3);
-        Shape ball = new Ball(3);
-        Box box = new Box();
-        box.add(pir);
-        System.out.println(box.getVolume());
-        box.add(cyl);
-        System.out.println(box.getVolume());
-        box.add(paral);
-        System.out.println(box.getVolume());
-        box.add(ball);
-        System.out.println(box.getVolume());
-
+//        Shape pir = new Piramid(13, 3);
+//        Shape cyl = new Cylinder(1, 8);
+//        Shape paral = new Parallelepiped(15, 3);
+//        Shape ball = new Ball(3);
+//        Box box = new Box();
+//        box.add(pir);
+//        System.out.println(box.getVolume());
+//        box.add(cyl);
+//        System.out.println(box.getVolume());
+//        box.add(paral);
+//        System.out.println(box.getVolume());
+//        box.add(ball);
+//        System.out.println(box.getVolume());
 
 //        ЗАДАНИЕ 5 ВЕС ЧИСЕЛ
 
@@ -88,5 +88,16 @@ public class Main {
 //        int[] weight = {1, 3, 12, 9, 5};
 //        Task5_Weight mass = new Task5_Weight(count, weight);
 //        System.out.println(mass.RandomWeight());
+
+//        ЗАДАНИЕ 6 МОРСКОЙ БОЙ
+
+        Map ship = new Map();
+        ship.randomLoc();
+        for (int i = 0; i < ship.map.length; i++) {
+            for (int j = 0; j < ship.map.length; j++) {
+                System.out.print(ship.map[i][j]);
+            }
+            System.out.println();
+        }
     }
 }
