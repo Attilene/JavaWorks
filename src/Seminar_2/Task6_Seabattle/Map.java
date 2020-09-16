@@ -1,13 +1,10 @@
 package Seminar_2.Task6_Seabattle;
 
-import java.awt.*;
-
 public class Map {
     int mapsize = 10;
-    public char[][] map = new char[10][10];
+    public char[][] map = new char[mapsize][mapsize];
     int[] shipssizes = {0, 4, 3, 2, 1};
     int numberofships = 10;
-    boolean check;
     public Ship[] listships = new Ship[numberofships];
 
     public Map() {
