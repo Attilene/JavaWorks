@@ -8,9 +8,9 @@ public class Map {
     public Ship[] listships = new Ship[numberofships];
 
     public Map() {
-        for (int i = 0; i < 10; i++)
-            for (int j = 0; j < 10; j++)
-                map[i][j] = '-';
+        for (int i = 0; i < mapsize; i++)
+            for (int j = 0; j < mapsize; j++)
+                map[i][j] = '·';
     }
 
     public void setShip(Ship sh) {
@@ -37,7 +37,7 @@ public class Map {
     }
 
     private boolean checkLoc(Ship ship){
-        int xlu, xrd = 10, ylu, yrd = 10, kx, ky;
+        int xlu, xrd = mapsize, ylu, yrd = mapsize, kx, ky;
         if (ship.isVertically) {
             kx = 1;
             ky = 0;
@@ -50,38 +50,38 @@ public class Map {
         int y = ship.coordY;
         int decks = ship.size;
         if (!ship.isVertically){
-            if (y + decks >= 10)
+            if (y + decks >= mapsize)
                 return false;
         }
         else {
-            if (x + decks >= 10)
+            if (x + decks >= mapsize)
                 return false;
         }
         if (x == 0) xlu = x;
         else xlu = x - 1;
-        if (x + kx * decks == 10 & kx == 1)
+        if (x + kx * decks == mapsize & kx == 1)
             xrd = x + kx * decks;
         else
-            if (x + kx * decks < 10 & kx == 1)
+            if (x + kx * decks < mapsize & kx == 1)
                 xrd = x + kx * decks + 1;
             else
-                if (x == 9 & kx == 0)
+                if (x == mapsize - 1 & kx == 0)
                     xrd = x + 1;
                 else
-                    if (x < 9 & kx == 0)
+                    if (x < mapsize - 1 & kx == 0)
                         xrd = x + 2;
         if (y == 0) ylu = y;
         else ylu = y - 1;
-        if (y + ky * decks == 10 & ky == 1)
+        if (y + ky * decks == mapsize & ky == 1)
             yrd = y + ky * decks;
         else
-            if (y + ky * decks < 10 & ky == 1)
+            if (y + ky * decks < mapsize & ky == 1)
                 yrd = y + ky * decks + 1;
             else
-                if (y == 9 & ky == 0)
+                if (y == mapsize - 1 & ky == 0)
                     yrd = y + 1;
                 else
-                    if (y < 9 & ky == 0)
+                    if (y < mapsize - 1 & ky == 0)
                         yrd = y + 2;
         for (int i = xlu; i < xrd; i++) {
             for (int j = ylu; j < yrd; j++) {
