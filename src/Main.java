@@ -1,5 +1,6 @@
 //import Seminar_2.Task3_Hierarchy.*;
 //import Seminar_2.Task3_Hierarchy.Shape;
+import Seminar_2.Task6_Seabattle.*;
 import Seminar_3.*;
 
 import java.io.IOException;
@@ -8,8 +9,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
 //        Семинар 2 ЗАДАНИЕ 6 МОРСКОЙ БОЙ
 
-//        User_Interface ship = new User_Interface();
-//        ship.newGame();
+        User_Interface ship = new User_Interface();
+        ship.newGame();
 
 //        Семинар 3 Задание 1
 
@@ -31,7 +32,7 @@ public class Main {
 
 //        Семинар 3 Задание 3
 
-        DictionaryOfWords dict = new DictionaryOfWords();
-        System.out.println(dict.dict);
+//        DictionaryOfWords dict = new DictionaryOfWords();
+//        System.out.println(dict.dict);
     }
 }

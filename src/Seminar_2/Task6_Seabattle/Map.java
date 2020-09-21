@@ -10,15 +10,21 @@ public class Map {
     public Map() {
         for (int i = 0; i < mapsize; i++)
             for (int j = 0; j < mapsize; j++)
-                map[i][j] = '·';
+                map[i][j] = ' ';
     }
 
     public void setShip(Ship sh) {
         for (int j = 0; j < sh.size; j++) {
-            if (sh.isVertically)
+            if (sh.isVertically) {
                 map[sh.coordX + j][sh.coordY] = 'S';
-            else
+                sh.coords[j][0] = sh.coordX + j;
+                sh.coords[j][1] = sh.coordY;
+            }
+            else {
                 map[sh.coordX][sh.coordY + j] = 'S';
+                sh.coords[j][0] = sh.coordX;
+                sh.coords[j][1] = sh.coordY + j;
+            }
         }
     }
 
@@ -89,6 +95,10 @@ public class Map {
                     return false;
             }
         }
+        ship.xlu = xlu;
+        ship.ylu = ylu;
+        ship.xrd = xrd;
+        ship.yrd = yrd;
         return true;
     }
 }
