@@ -61,7 +61,7 @@ public class User_Interface {
     private boolean userWay() {
         int x, y;
         mapOut(mapUser);
-        mapOutComp(mapComp);
+        mapOutSecret(mapComp);
         System.out.println("Your way:");
         System.out.println("To exit, input: -1 -1");
         System.out.println("Input coordinates of cell (x, y):");
@@ -102,12 +102,14 @@ public class User_Interface {
     private void compWay() {
         int x, y;
         mapOut(mapUser);
-        mapOutComp(mapComp);
+        mapOutSecret(mapComp);
         System.out.println("Computer way:");
         x = (int) (Math.random() * 10);
         y = (int) (Math.random() * 10);
-        if (mapUser.map[x][y] == '·')
-            compWay();
+        while (mapUser.map[x][y] == '·' | mapUser.map[x][y] == '˟') {
+            x = (int) (Math.random() * 10);
+            y = (int) (Math.random() * 10);
+        }
         System.out.println("Computer chose the coordinates:");
         System.out.println(x + " " + y);
         if (mapUser.map[x][y] == 'S') {
@@ -118,12 +120,9 @@ public class User_Interface {
                 System.out.println("Computer killed the ship!");
             compWay();
         }
-        else if (mapUser.map[x][y] == ' ' | mapUser.map[x][y] == '·') {
+        else if (mapUser.map[x][y] == ' ') {
             System.out.println("Computer missed!");
             mapUser.map[x][y] = '·';
-        }
-        else if (mapUser.map[x][y] == '˟') {
-            System.out.println("Computer missed!");
         }
     }
 
@@ -132,16 +131,17 @@ public class User_Interface {
             for (int j = 0; j < map.listships[i].size; j++) {
                 if (map.listships[i].coords[j][0] == x & map.listships[i].coords[j][1] == y)
                     map.listships[i].hit++;
-                if (map.listships[i].hit == map.listships[i].size) {
-                    for (int k = map.listships[i].xlu; k < map.listships[i].xrd; k++) {
-                        for (int u = map.listships[i].ylu; u < map.listships[i].yrd; u++) {
-                            if (k >= 0 & k < 10 & u >= 0 & u < 10)
-                                if (map.map[k][u] != '˟')
-                                    map.map[k][u] = '·';
-                        }
+            }
+            if (map.listships[i].hit == map.listships[i].size) {
+                for (int k = map.listships[i].xlu; k < map.listships[i].xrd; k++) {
+                    for (int u = map.listships[i].ylu; u < map.listships[i].yrd; u++) {
+                        if (k >= 0 & k < map.map.length & u >= 0 & u < map.map.length)
+                            if (map.map[k][u] != '˟')
+                                map.map[k][u] = '·';
                     }
-                    return true;
                 }
+                map.listships[i].hit = -1;
+                return true;
             }
         }
         return false;
@@ -167,7 +167,7 @@ public class User_Interface {
         System.out.println();
     }
 
-    private void mapOutComp(Map map) {
+    private void mapOutSecret(Map map) {
         System.out.print("  |");
         for(int i = 0; i < map.map.length; i++) {
             System.out.print(" " + i);
