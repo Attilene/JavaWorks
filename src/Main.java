@@ -5,8 +5,7 @@ import Seminar_3.*;
 import Seminar_4.*;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 import java.util.Map;
 
 public class Main {
@@ -31,5 +30,15 @@ public class Main {
 //        }
 
 //        Семинар 4 Итераторы
+        Integer[][] arr1 = {{1, 2, 3, 5}, {4, 5, 6, 1}, {7, 8, 9, 10}};
+        Integer[] arr2 = {11, 12, 13, 14, 15, 16, 17, 18, 19};
+        Matrix_Iterat<Integer> iter1 = new Matrix_Iterat<>(arr1);
+        Iterat<Integer> iter2 = new Iterat<>(arr2);
+        IterAndStr<Integer> iter3 = new IterAndStr<>(iter1);
+//        Double_Iterator<Integer> diter = new Double_Iterator<>(iter1, iter2);
+//        Matrix_Iterat<Integer> iterat = new Matrix_Iterat<>(arr);
+        while (iter3.hasNext()) {
+            System.out.println(iter3.next());
+        }
     }
 }
