@@ -15,20 +15,6 @@ public class Main {
 //        User_Interface ship = new User_Interface();
 //        ship.newGame();
 
-
-//        Семинар 4 Ключ поменять на значение
-
-//        Map<String, Integer> map = new HashMap<String, Integer>();
-//        map.put("hello", 2);
-//        map.put("bye", 2);
-//        map.put("qwerty", 3);
-//        Dictionaries diction = new Dictionaries();
-//        Map<Integer, HashSet<String>> map2 = new HashMap<Integer, HashSet<String>>();
-//        map2 = diction.changeKeyValue(map);
-//        for (Map.Entry<Integer, HashSet<String>> entry: map2.entrySet()) {
-//            System.out.println(entry.getKey() + " " + entry.getValue());
-//        }
-
 //        Семинар 4 Итераторы
         Integer[][] arr1 = {{1, 2, 3, 5}, {4, 5, 6, 1}, {7, 8, 9, 10}};
         Integer[] arr2 = {11, 12, 13, 14, 15, 16, 17, 18, 19};
