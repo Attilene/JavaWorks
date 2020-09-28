@@ -34,11 +34,12 @@ public class Main {
         Integer[] arr2 = {11, 12, 13, 14, 15, 16, 17, 18, 19};
         Matrix_Iterat<Integer> iter1 = new Matrix_Iterat<>(arr1);
         Iterat<Integer> iter2 = new Iterat<>(arr2);
-        IterAndStr<Integer> iter3 = new IterAndStr<>(iter1);
+        IterAndStr<Integer> iter3 = new IterAndStr<>(iter2);
+        FlatIterator<String> iter4 = new FlatIterator<>(iter3);
 //        Double_Iterator<Integer> diter = new Double_Iterator<>(iter1, iter2);
 //        Matrix_Iterat<Integer> iterat = new Matrix_Iterat<>(arr);
-        while (iter3.hasNext()) {
-            System.out.println(iter3.next());
+        while (iter4.hasNext()) {
+            System.out.println(iter4.next());
         }
     }
 }
