@@ -19,9 +19,10 @@ public class User_Interface {
         first_way = rd.nextBoolean();
         mapUser.randomLoc();
         mapComp.randomLoc();
-        System.out.println("Choose game mode:");
+        System.out.println("Game modes:");
         System.out.println("true - game against computer");
         System.out.println("false - game against another gamer with network");
+        System.out.print("Choose game mode: ");
         mode = scan.nextBoolean();
         if (first_way) System.out.println("User1 goes first!");
         ways(first_way, mode);
@@ -36,6 +37,8 @@ public class User_Interface {
         while (true) {
             if (first_way) {
                 breaking = userWay(mapEnemy);
+                if (!breaking)
+                    break;
                 if (isGameOver(true)) {
                     break;
                 }
@@ -52,12 +55,12 @@ public class User_Interface {
                     break;
                 }
                 breaking = userWay(mapEnemy);
+                if (!breaking)
+                    break;
                 if (isGameOver(true)) {
                     break;
                 }
             }
-            if (!breaking)
-                break;
         }
         mapOut(mapUser);
         if (mode) mapOut(mapComp);
@@ -73,8 +76,13 @@ public class User_Interface {
             }
         }
         else {
-            if (isMapEmpty(mapUser)) {
+            if (isMapEmpty(mapUser) & mode) {
                 System.out.println("Computer are win!!! So sad :(");
+                System.out.println("Game over!");
+                return true;
+            }
+            else if (isMapEmpty(mapUser2) & !mode) {
+                System.out.println("User2 are win!!! So sad :(");
                 System.out.println("Game over!");
                 return true;
             }
@@ -95,10 +103,10 @@ public class User_Interface {
     private boolean userWay(Map mapEnemy) {
         int x, y;
         mapOut(mapUser);
-        mapOutSecret(mapEnemy);
+        mapOut(mapEnemy, true);
         System.out.println("User1 way:");
         System.out.println("To exit, input: -1 -1");
-        System.out.println("Input coordinates of cell (x, y):");
+        System.out.print("Input coordinates of cell (x, y): ");
         while (true) {
             x = scan.nextInt();
             y = scan.nextInt();
@@ -135,10 +143,10 @@ public class User_Interface {
     private void user2Way() {
         int x, y;
         mapOut(mapUser);
-        mapOutSecret(mapComp);
+        mapOut(mapUser2, true);
         System.out.println("User2 way:");
-        x = (int) (Math.random() * 10);
-        y = (int) (Math.random() * 10);
+        x = (int) (Math.random() * 10); // TODO: Нужно переделать для веб-сервера
+        y = (int) (Math.random() * 10); // TODO: Нужно переделать для веб-сервера
         System.out.println("User2 chose the coordinates:");
         System.out.println(x + " " + y);
         if (mapUser.map[x][y] == 'S') {
@@ -161,7 +169,7 @@ public class User_Interface {
     private void compWay() {
         int x, y;
         mapOut(mapUser);
-        mapOutSecret(mapComp);
+        mapOut(mapComp, true);
         System.out.println("Computer way:");
         x = (int) (Math.random() * 10);
         y = (int) (Math.random() * 10);
@@ -185,8 +193,6 @@ public class User_Interface {
         }
     }
 
-
-
     private boolean isKilled(Map map, int x, int y) {
         for (int i = 0; i < map.listships.length; i++) {
             for (int j = 0; j < map.listships[i].size; j++) {
@@ -208,7 +214,7 @@ public class User_Interface {
         return false;
     }
 
-    private void mapOut(Map map) {
+    private void mapOut(Map map, boolean secret) {
         System.out.print("  |");
         for(int i = 0; i < map.map.length; i++) {
             System.out.print(" " + i);
@@ -221,33 +227,15 @@ public class User_Interface {
         for (int i = 0; i < map.map.length; i++) {
             System.out.print(i + " | " );
             for (int j = 0; j < map.map.length; j++) {
-                System.out.print(map.map[i][j] + " ");
+                if (map.map[i][j] == 'S' & secret) System.out.print("  ");
+                else System.out.print(map.map[i][j] + " ");
             }
             System.out.println();
         }
         System.out.println();
     }
 
-    private void mapOutSecret(Map map) {
-        System.out.print("  |");
-        for(int i = 0; i < map.map.length; i++) {
-            System.out.print(" " + i);
-        }
-        System.out.println();
-        for (int i = 0; i < 23; i++) {
-            System.out.print("͞");
-        }
-        System.out.println();
-        for (int i = 0; i < map.map.length; i++) {
-            System.out.print(i + " | " );
-            for (int j = 0; j < map.map.length; j++) {
-                if (map.map[i][j] != 'S')
-                    System.out.print(map.map[i][j] + " ");
-                else
-                    System.out.print("  ");
-            }
-            System.out.println();
-        }
-        System.out.println();
+    private void mapOut(Map map) {
+        mapOut(map, false);
     }
 }
