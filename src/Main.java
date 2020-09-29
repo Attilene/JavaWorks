@@ -12,20 +12,20 @@ public class Main {
     public static void main(String[] args) throws IOException {
 //        Семинар 2 ЗАДАНИЕ 6 МОРСКОЙ БОЙ
 
-//        User_Interface ship = new User_Interface();
-//        ship.newGame();
+        User_Interface ship = new User_Interface();
+        ship.newGame();
 
 //        Семинар 4 Итераторы
-        Integer[][] arr1 = {{1, 2, 3, 5}, {4, 5, 6, 1}, {7, 8, 9, 10}};
-        Integer[] arr2 = {11, 12, 13, 14, 15, 16, 17, 18, 19};
-        Matrix_Iterat<Integer> iter1 = new Matrix_Iterat<>(arr1);
-        Iterat<Integer> iter2 = new Iterat<>(arr2);
-        IterAndStr<Integer> iter3 = new IterAndStr<>(iter2);
-        FlatIterator<String> iter4 = new FlatIterator<>(iter3);
-//        Double_Iterator<Integer> diter = new Double_Iterator<>(iter1, iter2);
-//        Matrix_Iterat<Integer> iterat = new Matrix_Iterat<>(arr);
-        while (iter4.hasNext()) {
-            System.out.println(iter4.next());
-        }
+//        Integer[][] arr1 = {{1, 2, 3, 5}, {4, 5, 6, 1}, {7, 8, 9, 10}};
+//        Integer[] arr2 = {11, 12, 13, 14, 15, 16, 17, 18, 19};
+//        Matrix_Iterat<Integer> iter1 = new Matrix_Iterat<>(arr1);
+//        Iterat<Integer> iter2 = new Iterat<>(arr2);
+//        IterAndStr<Integer> iter3 = new IterAndStr<>(iter2);
+//        FlatIterator<String> iter4 = new FlatIterator<>(iter3);
+////        Double_Iterator<Integer> diter = new Double_Iterator<>(iter1, iter2);
+////        Matrix_Iterat<Integer> iterat = new Matrix_Iterat<>(arr);
+//        while (iter4.hasNext()) {
+//            System.out.println(iter4.next());
+//        }
     }
 }
