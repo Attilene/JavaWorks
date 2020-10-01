@@ -1,5 +1,6 @@
 package Seminar_2.Task6_Seabattle;
 
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -7,7 +8,7 @@ public class User_Interface {
     Map mapUser, mapComp, mapUser2;
     boolean mode, first_way, breaking = true;
     Random rd = new Random();
-    Scanner scan = new Scanner(System.in);
+    Scanner scan;
 
     public User_Interface() {
         mapUser = new Map();
@@ -16,14 +17,22 @@ public class User_Interface {
     }
 
     public void newGame() {
+        while (true) {
+            try {
+                System.out.println("Game modes:");
+                System.out.println("true - game against computer");
+                System.out.println("false - game against another gamer with network");
+                System.out.print("Choose game mode: ");
+                scan = new Scanner(System.in);
+                mode = scan.nextBoolean();
+                break;
+            }
+            catch (InputMismatchException e)
+                { System.out.println("You are entered incorrect mode!"); }
+        }
         first_way = rd.nextBoolean();
         mapUser.randomLoc();
         mapComp.randomLoc();
-        System.out.println("Game modes:");
-        System.out.println("true - game against computer");
-        System.out.println("false - game against another gamer with network");
-        System.out.print("Choose game mode: ");
-        mode = scan.nextBoolean();
         if (first_way) System.out.println("User1 goes first!");
         ways(first_way, mode);
     }
@@ -70,7 +79,7 @@ public class User_Interface {
     private boolean isGameOver(boolean enemies) {
         if (enemies) {
             if (isMapEmpty(mapComp)) {
-                System.out.println("You are win!!! HOORAY!!!");
+                System.out.println("User1 are win!!! HOORAY!!!");
                 System.out.println("Game over!");
                 return true;
             }
@@ -108,19 +117,25 @@ public class User_Interface {
         System.out.println("To exit, input: -1 -1");
         System.out.print("Input coordinates of cell (x, y): ");
         while (true) {
-            x = scan.nextInt();
-            y = scan.nextInt();
-            if (x == -1 & y == -1) { // Выход из игры
-                System.out.println("Draw!!!");
-                System.out.println("Game over!");
-                return false;
+            try {
+                scan = new Scanner(System.in);
+                x = scan.nextInt();
+                y = scan.nextInt();
+                if (x == -1 & y == -1) { // Выход из игры
+                    System.out.println("Draw!!!");
+                    System.out.println("Game over!");
+                    return false;
+                }
+                else if (x >= 10 | x < 0 | y >= 10 | y < 0) {
+                    throw new InputMismatchException();
+                }
+                else
+                    break;
             }
-            if (x >= 10 | x < 0 | y >= 10 | y < 0) {
+            catch (InputMismatchException e) {
                 System.out.println("User1 are entered incorrect data!");
-                System.out.println("Input right coordinates:");
+                System.out.print("Input right coordinates: ");
             }
-            if (x < 10 & x >= 0 & y < 10 & y >= 0)
-                break;
         }
         if (mapEnemy.map[x][y] == 'S') {
             mapEnemy.map[x][y] = '˟';
