@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class User_Interface {
     Map mapUser, mapComp, mapUser2;
-    boolean mode, first_way, breaking = true;
+    boolean mode, first_way;
     Random rd = new Random();
     Scanner scan;
 
@@ -45,8 +45,7 @@ public class User_Interface {
         else if (!first_way & !mode) System.out.println("User2 goes first!");
         while (true) {
             if (first_way) {
-                breaking = userWay(mapEnemy);
-                if (!breaking)
+                if (!userWay(mapEnemy))
                     break;
                 if (isGameOver(true)) {
                     break;
@@ -63,8 +62,7 @@ public class User_Interface {
                 if (isGameOver(false)) {
                     break;
                 }
-                breaking = userWay(mapEnemy);
-                if (!breaking)
+                if (!userWay(mapEnemy))
                     break;
                 if (isGameOver(true)) {
                     break;
@@ -143,7 +141,7 @@ public class User_Interface {
                 System.out.println("User1 hit the ship!");
             else
                 System.out.println("User1 killed the ship!");
-            userWay(mapEnemy);
+            return userWay(mapEnemy);
         }
         else if (mapEnemy.map[x][y] == ' ' | mapEnemy.map[x][y] == '·') {
             System.out.println("User1 missed!");
