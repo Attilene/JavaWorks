@@ -32,6 +32,7 @@ public class User_Interface {
         }
         first_way = rd.nextBoolean();
         mapUser.randomLoc();
+        mapUser2.randomLoc(); // TODO: заменить при написании сервера
         mapComp.randomLoc();
         if (first_way) System.out.println("User1 goes first!");
         ways(first_way, mode);
@@ -47,24 +48,24 @@ public class User_Interface {
             if (first_way) {
                 if (!userWay(mapEnemy))
                     break;
-                if (isGameOver(true)) {
+                if (isGameOver(true, mode)) {
                     break;
                 }
                 if (mode) compWay();
                 else user2Way();
-                if (isGameOver(false)) {
+                if (isGameOver(false, mode)) {
                     break;
                 }
             }
             else {
                 if (mode) compWay();
                 else user2Way();
-                if (isGameOver(false)) {
+                if (isGameOver(false, mode)) {
                     break;
                 }
                 if (!userWay(mapEnemy))
                     break;
-                if (isGameOver(true)) {
+                if (isGameOver(true, mode)) {
                     break;
                 }
             }
@@ -74,7 +75,7 @@ public class User_Interface {
         else mapOut(mapUser2);
     }
 
-    private boolean isGameOver(boolean enemies) {
+    private boolean isGameOver(boolean enemies, boolean mode) {
         if (enemies) {
             if (isMapEmpty(mapComp)) {
                 System.out.println("User1 are win!!! HOORAY!!!");
