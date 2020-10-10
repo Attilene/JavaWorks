@@ -2,20 +2,16 @@ package Seminar_6;
 
 import java.util.Stack;
 
-public class StrBuilder {
-    private interface Action{
-        void undo();
-    }
+public class UndoStrBuilder {
+    private interface Action{ void undo();}
 
     private class undoAppend implements Action {
         @Override
-        public void undo() {
-            stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
-        }
+        public void undo() { stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length()); }
     }
 
     private class undoReplace implements Action {
-        private int start, end;
+        private final int start, end;
         String str;
 
         public undoReplace(int start, int end, String str) {
@@ -25,13 +21,11 @@ public class StrBuilder {
         }
 
         @Override
-        public void undo() {
-            stringBuilder.replace(start, end, str);
-        }
+        public void undo() { stringBuilder.replace(start, end, str); }
     }
 
     private class undoInsert implements Action {
-        private int offset;
+        private final int offset;
         String str;
 
         public undoInsert(int offset, String str) {
@@ -40,13 +34,11 @@ public class StrBuilder {
         }
 
         @Override
-        public void undo() {
-            stringBuilder.delete(offset, str.length());
-        }
+        public void undo() { stringBuilder.delete(offset, str.length()); }
     }
 
     private class undoDelete implements Action {
-        private int offset;
+        private final int offset;
         String str;
 
         public undoDelete(int offset, String str) {
@@ -55,13 +47,11 @@ public class StrBuilder {
         }
 
         @Override
-        public void undo() {
-            stringBuilder.insert(offset, str);
-        }
+        public void undo() { stringBuilder.insert(offset, str); }
     }
 
     private class undoCharDelete implements Action {
-        private int index;
+        private final int index;
         char elem;
 
         public undoCharDelete(int index, char elem) {
@@ -70,25 +60,19 @@ public class StrBuilder {
         }
 
         @Override
-        public void undo() {
-            stringBuilder.insert(index, elem);
-        }
+        public void undo() { stringBuilder.insert(index, elem); }
     }
 
     private class undoReverse implements Action {
         @Override
-        public void undo() {
-            stringBuilder.reverse();
-        }
+        public void undo() { stringBuilder.reverse(); }
     }
 
 
-    private StringBuilder stringBuilder;
+    private final StringBuilder stringBuilder;
     public Stack<Action> actionStack = new Stack<>();
 
-    public StrBuilder(StringBuilder stringBuilder) {
-        this.stringBuilder = stringBuilder;
-    }
+    public UndoStrBuilder(StringBuilder stringBuilder) { this.stringBuilder = stringBuilder; }
 
     public void append (String str) {
         stringBuilder.append(str);
@@ -129,20 +113,11 @@ public class StrBuilder {
         actionStack.push(unrev);
     }
 
-    public String substring(int start, int end) {
-        return stringBuilder.substring(start, end);
-    }
+    public String substring(int start, int end) { return stringBuilder.substring(start, end); }
 
-    public String substring(int start) {
-        return substring(start, stringBuilder.length());
-    }
+    public String substring(int start) { return substring(start, stringBuilder.length()); }
 
-    public void undo() {
-        Action lastact = actionStack.pop();
-        lastact.undo();
-    }
+    public void undo() { actionStack.pop().undo(); }
 
-    public void print() {
-        System.out.println(stringBuilder);
-    }
+    public void print() { System.out.println(stringBuilder); }
 }
