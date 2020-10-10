@@ -15,12 +15,12 @@ public class Temperature implements Temp {
     @Override
     public void translate() {
         try {
-            if (from.equals("kelvin") & to.equals("celsius")) temp_fin = kelvinToCelsius(temp);
-            else if (from.equals("celsius") & to.equals("kelvin")) temp_fin = celsiusToKelvin(temp);
-            else if (from.equals("fahrenheit") & to.equals("celsius")) temp_fin = fahrenheitToCelsius(temp);
-            else if (from.equals("celsius") & to.equals("fahrenheit")) temp_fin = celsiusToFahrenheit(temp);
-            else if (from.equals("fahrenheit") & to.equals("kelvin")) temp_fin = fahrenheitToKelvin(temp);
-            else if (from.equals("kelvin") & to.equals("fahrenheit")) temp_fin = kelvinToFahrenheit(temp);
+            if (from.equals("K") & to.equals("C")) temp_fin = kelvinToCelsius(temp);
+            else if (from.equals("C") & to.equals("K")) temp_fin = celsiusToKelvin(temp);
+            else if (from.equals("F") & to.equals("C")) temp_fin = fahrenheitToCelsius(temp);
+            else if (from.equals("C") & to.equals("F")) temp_fin = celsiusToFahrenheit(temp);
+            else if (from.equals("F") & to.equals("K")) temp_fin = fahrenheitToKelvin(temp);
+            else if (from.equals("K") & to.equals("F")) temp_fin = kelvinToFahrenheit(temp);
             else throw new InputMismatchException();
         }
         catch (InputMismatchException e) {
