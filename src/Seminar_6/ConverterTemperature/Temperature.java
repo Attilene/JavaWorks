@@ -1,4 +1,4 @@
-package Seminar_6;
+package Seminar_6.ConverterTemperature;
 
 import java.util.InputMismatchException;
 
