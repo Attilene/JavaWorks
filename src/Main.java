@@ -1,9 +1,7 @@
 //import Seminar_2.Task3_Hierarchy.*;
 //import Seminar_2.Task3_Hierarchy.Shape;
-import Seminar_6.ObserverStringBuilder.Observer1;
-import Seminar_6.ObserverStringBuilder.Observer2;
+import Seminar_6.ObserverStringBuilder.User_Observer;
 import Seminar_6.ObserverStringBuilder.Observer_StrBuilder;
-import Seminar_6.UndoStrBuilder;
 
 import java.io.IOException;
 
@@ -44,8 +42,8 @@ public class Main {
 //        strBuilder.undo();
 //        strBuilder.print();
 
-        Observer1 obs1 = new Observer1();
-        Observer2 obs2 = new Observer2();
+        User_Observer obs1 = new User_Observer();
+        User_Observer obs2 = new User_Observer();
         Observer_StrBuilder observer_strBuilder = new Observer_StrBuilder(stringBuilder);
         observer_strBuilder.addObserver(obs1);
         observer_strBuilder.addObserver(obs2);

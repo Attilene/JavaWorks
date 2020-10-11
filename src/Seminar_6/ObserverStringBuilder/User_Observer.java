@@ -2,10 +2,10 @@ package Seminar_6.ObserverStringBuilder;
 
 import java.util.ArrayList;
 
-public class Observer1 implements Observer {
+public class User_Observer implements Observer {
     private final ArrayList<String> logs;
 
-    public Observer1() { logs = new ArrayList<>(); }
+    public User_Observer() { logs = new ArrayList<>(); }
 
     @Override
     public void notice(String condition) { logs.add("Observer1 get new condition of StringBuilder: " + condition); }
