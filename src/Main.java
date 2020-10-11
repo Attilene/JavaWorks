@@ -42,12 +42,14 @@ public class Main {
 //        strBuilder.undo();
 //        strBuilder.print();
 
-        User_Observer obs1 = new User_Observer();
-        User_Observer obs2 = new User_Observer();
+        User_Observer obs1 = new User_Observer("Artem");
+        User_Observer obs2 = new User_Observer("Dima");
         Observer_StrBuilder observer_strBuilder = new Observer_StrBuilder(stringBuilder);
         observer_strBuilder.addObserver(obs1);
         observer_strBuilder.addObserver(obs2);
         observer_strBuilder.append("y");
+        observer_strBuilder.print();
+        observer_strBuilder.undo();
         observer_strBuilder.print();
         observer_strBuilder.removeObserver(obs2);
         observer_strBuilder.replace(0, 2, "qw");
