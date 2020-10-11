@@ -1,10 +1,8 @@
-package Seminar_6;
+package Seminar_6.UndoStringBuilder;
 
 import java.util.Stack;
 
 public class UndoStrBuilder {
-    private interface Action{ void undo();}
-
     private class undoAppend implements Action {
         @Override
         public void undo() { stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length()); }
