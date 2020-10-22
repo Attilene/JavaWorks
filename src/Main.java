@@ -4,18 +4,15 @@ import Seminar_2.Task6_Seabattle.User_Interface;
 import Seminar_6.ObserverStringBuilder.User_Observer;
 import Seminar_6.ObserverStringBuilder.Observer_StrBuilder;
 import Seminar_6.UndoStringBuilder.UndoStrBuilder;
+import Seminar_7.ZeroCross;
 
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-//        Семинар 2 ЗАДАНИЕ 6 МОРСКОЙ БОЙ
-
-        User_Interface ship = new User_Interface("User1");
-        ship.newGame();
-
-//        Client client = new Client();
-//        client.addClient();
+        String[] names = {"Artem", "Dima"};
+        ZeroCross cr = new ZeroCross(3, names);
+        cr.newGame();
 
 //        Семинар 4 Итераторы
 //        Integer[][] arr1 = {{1, 2, 3, 5}, {4, 5, 6, 1}, {7, 8, 9, 10}};

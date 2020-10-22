@@ -33,7 +33,7 @@ public class Server extends Thread{
                 Server.connects.add(clientConnection);
                 System.out.println("    Client connected: " + clientConnection.getName());
             } catch (IOException ex) {
-                ex.printStackTrace();
+                disconnect();
             }
         }
     }
@@ -45,6 +45,16 @@ public class Server extends Thread{
     public void sendMessageAll(String msg) {
         for(Connect client : connects) {
             client.send(msg);
+        }
+    }
+
+    public void disconnect() {
+        try {
+            serverSocket.close();
+//            System.out.println(client);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
