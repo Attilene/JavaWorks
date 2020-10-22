@@ -3,9 +3,18 @@ package Seminar_6.UndoStringBuilder;
 import java.util.Stack;
 
 public class UndoStrBuilder {
-    private class undoAppend implements Action {
+    private class Append implements Action {
+        private final String str;
+
+        public Append(String str) {
+            this.str = str;
+        }
+
         @Override
-        public void undo() { stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length()); }
+        public void undo() { stringBuilder.delete(stringBuilder.length() - str.length(), stringBuilder.length()); }
+
+        @Override
+        public void redo() { stringBuilder.append(str); }
     }
 
     private class undoReplace implements Action {
@@ -20,6 +29,11 @@ public class UndoStrBuilder {
 
         @Override
         public void undo() { stringBuilder.replace(start, end, str); }
+
+        @Override
+        public void redo() {
+
+        }
     }
 
     private class undoInsert implements Action {
@@ -33,6 +47,11 @@ public class UndoStrBuilder {
 
         @Override
         public void undo() { stringBuilder.delete(offset, str.length()); }
+
+        @Override
+        public void redo() {
+
+        }
     }
 
     private class undoDelete implements Action {
@@ -46,6 +65,11 @@ public class UndoStrBuilder {
 
         @Override
         public void undo() { stringBuilder.insert(offset, str); }
+
+        @Override
+        public void redo() {
+
+        }
     }
 
     private class undoCharDelete implements Action {
@@ -59,22 +83,33 @@ public class UndoStrBuilder {
 
         @Override
         public void undo() { stringBuilder.insert(index, elem); }
+
+        @Override
+        public void redo() {
+
+        }
     }
 
     private class undoReverse implements Action {
         @Override
         public void undo() { stringBuilder.reverse(); }
+
+        @Override
+        public void redo() {
+
+        }
     }
 
 
     private final StringBuilder stringBuilder;
     public Stack<Action> actionStack = new Stack<>();
+    public Stack<Action> redo_actionStack = new Stack<>();
 
     public UndoStrBuilder(StringBuilder stringBuilder) { this.stringBuilder = stringBuilder; }
 
     public void append (String str) {
         stringBuilder.append(str);
-        undoAppend unapp = new undoAppend();
+        Append unapp = new Append(str);
         actionStack.push(unapp);
     }
 
@@ -115,7 +150,12 @@ public class UndoStrBuilder {
 
     public String substring(int start) { return substring(start, stringBuilder.length()); }
 
-    public void undo() { actionStack.pop().undo(); }
+    public void undo() {
+        redo_actionStack.push(actionStack.peek());
+        actionStack.pop().undo();
+    }
+
+    public void redo() { redo_actionStack.pop().redo(); }
 
     public void print() { System.out.println(stringBuilder); }
 }

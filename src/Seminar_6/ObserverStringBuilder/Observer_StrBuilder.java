@@ -6,9 +6,14 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class Observer_StrBuilder {
-    private class undoAppend implements Action {
+    private class Append implements Action {
         @Override
         public void undo() { stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length()); }
+
+        @Override
+        public void redo() {
+
+        }
     }
 
     private class undoReplace implements Action {
@@ -23,6 +28,11 @@ public class Observer_StrBuilder {
 
         @Override
         public void undo() { stringBuilder.replace(start, end, str); }
+
+        @Override
+        public void redo() {
+
+        }
     }
 
     private class undoInsert implements Action {
@@ -36,6 +46,11 @@ public class Observer_StrBuilder {
 
         @Override
         public void undo() { stringBuilder.delete(offset, str.length()); }
+
+        @Override
+        public void redo() {
+
+        }
     }
 
     private class undoDelete implements Action {
@@ -49,6 +64,11 @@ public class Observer_StrBuilder {
 
         @Override
         public void undo() { stringBuilder.insert(offset, str); }
+
+        @Override
+        public void redo() {
+
+        }
     }
 
     private class undoCharDelete implements Action {
@@ -62,11 +82,21 @@ public class Observer_StrBuilder {
 
         @Override
         public void undo() { stringBuilder.insert(index, elem); }
+
+        @Override
+        public void redo() {
+
+        }
     }
 
     private class undoReverse implements Action {
         @Override
         public void undo() { stringBuilder.reverse(); }
+
+        @Override
+        public void redo() {
+
+        }
     }
 
     private final StringBuilder stringBuilder;
@@ -99,7 +129,7 @@ public class Observer_StrBuilder {
     public void append (String str) {
         stringBuilder.append(str);
         addCondition("append('" + str + "')");
-        undoAppend unapp = new undoAppend();
+        Append unapp = new Append();
         actionStack.push(unapp);
     }
 
