@@ -5,15 +5,17 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class User_Interface {
-    Map mapUser, mapComp, mapUser2;
+    Map mapUser, mapComp;
     boolean mode, first_way;
     Random rd = new Random();
     Scanner scan;
+    Client user1;
+    String name;
 
-    public User_Interface() {
+    public User_Interface(String name) {
         mapUser = new Map();
         mapComp = new Map();
-        mapUser2 = new Map();
+        this.name = name;
     }
 
     public void newGame() {
@@ -32,64 +34,58 @@ public class User_Interface {
         }
         first_way = rd.nextBoolean();
         mapUser.randomLoc();
-        mapUser2.randomLoc(); // TODO: заменить при написании сервера
-        mapComp.randomLoc();
-        if (first_way) System.out.println("User1 goes first!");
-        ways(first_way, mode);
+        if (!mode) {
+            user1 = new Client(name);
+            user1.connect();
+            user1.send(mapUser);
+        }
+        else {
+            mapComp.randomLoc();
+            ways(first_way, mode, mapComp);
+        }
+
     }
 
-    private void ways(boolean first_way, boolean mode) {
+    public void ways(boolean first_way, boolean mode, Map map) {
         Map mapEnemy;
-        if (mode) mapEnemy = mapComp;
-        else mapEnemy = mapUser2;
-        if (!first_way & mode) System.out.println("Computer goes first!");
-        else if (!first_way & !mode) System.out.println("User2 goes first!");
+        mapEnemy = map;
+        if (first_way) System.out.println("User1 goes first!");
+        else if (mode) System.out.println("Computer goes first!");
         while (true) {
             if (first_way) {
-                if (!userWay(mapEnemy))
-                    break;
-                if (isGameOver(true, mode)) {
-                    break;
-                }
+                if (!userWay(mapEnemy)) break;
+                if (isGameOver(true, mode, mapUser)) break;
                 if (mode) compWay();
                 else user2Way();
-                if (isGameOver(false, mode)) {
-                    break;
-                }
+                if (isGameOver(false, mode, mapEnemy)) break;
             }
             else {
                 if (mode) compWay();
                 else user2Way();
-                if (isGameOver(false, mode)) {
-                    break;
-                }
-                if (!userWay(mapEnemy))
-                    break;
-                if (isGameOver(true, mode)) {
-                    break;
-                }
+                if (isGameOver(false, mode, mapEnemy)) break;
+                if (!userWay(mapEnemy)) break;
+                if (isGameOver(true, mode, mapUser)) break;
             }
         }
         mapOut(mapUser);
-        if (mode) mapOut(mapComp);
-        else mapOut(mapUser2);
+        mapOut(mapEnemy);
     }
 
-    private boolean isGameOver(boolean enemies, boolean mode) {
+    public boolean isGameOver(boolean enemies, boolean mode, Map map) {
         if (enemies) {
-            if (isMapEmpty(mapComp)) {
+            if (isMapEmpty(map)) {
                 System.out.println("User1 are win!!! HOORAY!!!");
                 System.out.println("Game over!");
                 return true;
             }
         }
         else {
-            if (isMapEmpty(mapUser) & mode) {
+            if (mode & isMapEmpty(map)) {
                 System.out.println("Computer are win!!! So sad :(");
                 System.out.println("Game over!");
                 return true;
             }
-            else if (isMapEmpty(mapUser2) & !mode) {
+            else if (!mode & isMapEmpty(map)) {
                 System.out.println("User2 are win!!! So sad :(");
                 System.out.println("Game over!");
                 return true;
@@ -98,7 +94,7 @@ public class User_Interface {
         return false;
     }
 
-    private boolean isMapEmpty(Map map) {
+    public boolean isMapEmpty(Map map) {
         for (int i = 0; i < map.map.length; i++) {
             for (int j = 0; j < map.map[i].length; j++) {
                 if (map.map[i][j] == 'S')
@@ -108,7 +104,7 @@ public class User_Interface {
         return true;
     }
 
-    private boolean userWay(Map mapEnemy) {
+    public boolean userWay(Map mapEnemy) {
         int x, y;
         mapOut(mapUser);
         mapOut(mapEnemy, true);
@@ -121,8 +117,7 @@ public class User_Interface {
                 x = scan.nextInt();
                 y = scan.nextInt();
                 if (x == -1 & y == -1) { // Выход из игры
-                    System.out.println("Draw!!!");
-                    System.out.println("Game over!");
+                    System.out.println("Draw!!! Game over!");
                     return false;
                 }
                 else if (x >= 10 | x < 0 | y >= 10 | y < 0) {
@@ -154,10 +149,10 @@ public class User_Interface {
         return true;
     }
 
-    private void user2Way() {
+    public void user2Way() {
         int x, y;
         mapOut(mapUser);
-        mapOut(mapUser2, true);
+//        mapOut(mapUser2, true);
         System.out.println("User2 way:");
         x = (int) (Math.random() * 10); // TODO: Нужно переделать для веб-сервера
         y = (int) (Math.random() * 10); // TODO: Нужно переделать для веб-сервера
@@ -180,7 +175,7 @@ public class User_Interface {
         }
     }
 
-    private void compWay() {
+    public void compWay() {
         int x, y;
         mapOut(mapUser);
         mapOut(mapComp, true);
@@ -207,7 +202,7 @@ public class User_Interface {
         }
     }
 
-    private boolean isKilled(Map map, int x, int y) {
+    public boolean isKilled(Map map, int x, int y) {
         for (int i = 0; i < map.listships.length; i++) {
             for (int j = 0; j < map.listships[i].size; j++) {
                 if (map.listships[i].coords[j][0] == x & map.listships[i].coords[j][1] == y)
@@ -228,7 +223,7 @@ public class User_Interface {
         return false;
     }
 
-    private void mapOut(Map map, boolean secret) {
+    public void mapOut(Map map, boolean secret) {
         System.out.print("  |");
         for(int i = 0; i < map.map.length; i++) {
             System.out.print(" " + i);
@@ -249,7 +244,7 @@ public class User_Interface {
         System.out.println();
     }
 
-    private void mapOut(Map map) {
+    public void mapOut(Map map) {
         mapOut(map, false);
     }
 }

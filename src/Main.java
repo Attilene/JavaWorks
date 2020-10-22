@@ -1,5 +1,6 @@
 //import Seminar_2.Task3_Hierarchy.*;
 //import Seminar_2.Task3_Hierarchy.Shape;
+import Seminar_2.Task6_Seabattle.User_Interface;
 import Seminar_6.ObserverStringBuilder.User_Observer;
 import Seminar_6.ObserverStringBuilder.Observer_StrBuilder;
 import Seminar_6.UndoStringBuilder.UndoStrBuilder;
@@ -10,8 +11,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
 //        Семинар 2 ЗАДАНИЕ 6 МОРСКОЙ БОЙ
 
-//        User_Interface ship = new User_Interface();
-//        ship.newGame();
+        User_Interface ship = new User_Interface("User1");
+        ship.newGame();
 
 //        Client client = new Client();
 //        client.addClient();
