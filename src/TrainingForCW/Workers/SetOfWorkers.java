@@ -2,6 +2,7 @@ package TrainingForCW.Workers;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.zip.DataFormatException;
 
 public class SetOfWorkers {
     private ArrayList<Worker> workers;
@@ -37,15 +38,18 @@ public class SetOfWorkers {
             BufferedReader readline = new BufferedReader(reader);
             line = readline.readLine();
             while (line != null) {
+                worker = null;
                 data = line.split(" ");
+                if (data.length != 5) throw new DataFormatException();
                 if (data[data.length - 1].equals("HourlyWorker"))
                     worker = new HourlyWorker(data[1], data[2], Double.parseDouble(data[3]) / 20.8 / 8);
-                else
+                else if (data[data.length - 1].equals("FixedWorker"))
                     worker = new FixedWorker(data[1], data[2], Double.parseDouble(data[3]));
-                workers.add(worker);
+                if (worker != null) workers.add(worker);
                 line = readline.readLine();
             }
         }
+        catch (DataFormatException e) { System.out.println("Data is incorrect"); }
         catch (FileNotFoundException e) { System.out.println("File not found");}
         catch (IOException e) { System.out.println("File creation aborted"); }
     }
