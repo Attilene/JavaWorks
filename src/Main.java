@@ -5,15 +5,14 @@ import Seminar_6.ObserverStringBuilder.User_Observer;
 import Seminar_6.ObserverStringBuilder.Observer_StrBuilder;
 import Seminar_6.UndoStringBuilder.UndoStrBuilder;
 import Seminar_7.ZeroCross;
+import TrainingForCW.Workers.FixedWorker;
+import TrainingForCW.Workers.HourlyWorker;
+import TrainingForCW.Workers.SetOfWorkers;
 
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        String[] names = {"Artem", "Dima"};
-        ZeroCross cr = new ZeroCross(3, names);
-        cr.newGame();
-
+    public static void main(String[] args) {
 //        Семинар 4 Итераторы
 //        Integer[][] arr1 = {{1, 2, 3, 5}, {4, 5, 6, 1}, {7, 8, 9, 10}};
 //        Integer[] arr2 = {11, 12, 13, 14, 15, 16, 17, 18, 19};
