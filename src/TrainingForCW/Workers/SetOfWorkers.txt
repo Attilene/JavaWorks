@@ -1,6 +1,6 @@
-865 Bakanov Artem 99840.0 HourlyWorker
-859 Bibik Aleksandr 80000.0 FixedWorker
-503 Tkachev Sergei 80000.0 FixedWorker
-948 Derbin Dmitriy 66560.0 HourlyWorker
-6 Zheleznyakov Mikhail 60000.0 FixedWorker
-872 Khalilov Artem 55000.0 FixedWorker
+75 Bakanov Artem 99840.0 HourlyWorker
+208 Bibik Aleksandr 80000.0 FixedWorker
+5 Tkachev Sergei 80000.0 FixedWorker
+698 Derbin Dmitriy 66560.0 HourlyWorker
+53 Zheleznyakov Mikhail 60000.0 FixedWorker
+423 Khalilov Artem 55000.0 FixedWorker
