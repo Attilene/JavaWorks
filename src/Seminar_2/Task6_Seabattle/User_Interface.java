@@ -1,21 +1,22 @@
 package Seminar_2.Task6_Seabattle;
 
+import java.io.Serializable;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
-public class User_Interface {
-    Map mapUser, mapComp;
+public class User_Interface implements Serializable {
+    Map mapUser, mapComp, mapUser2;
     boolean mode, first_way;
     Random rd = new Random();
     Scanner scan;
-    Client user1;
+    Client user;
     String name;
 
     public User_Interface(String name) {
-        mapUser = new Map();
-        mapComp = new Map();
         this.name = name;
+        mapUser = new Map(this.name);
+        mapComp = new Map("Computer");
     }
 
     public void newGame() {
@@ -32,69 +33,89 @@ public class User_Interface {
             catch (InputMismatchException e)
                 { System.out.println("You are entered incorrect mode!"); }
         }
-        first_way = rd.nextBoolean();
-        mapUser.randomLoc();
         if (!mode) {
-            user1 = new Client(name);
-            user1.connect();
-            user1.send(mapUser);
+            user = new Client(name);
+            user.connect();
+            user.send(name);
+            System.out.println(user.receive().toString());
+            mapUser = (Map) user.receive();
+            mapUser2 = (Map) user.receive();
+            web_game(user);
+//            mapUser.mapOut();
         }
         else {
+            first_way = rd.nextBoolean();
+            mapUser.randomLoc();
             mapComp.randomLoc();
-            ways(first_way, mode, mapComp);
+            ways(first_way, mapUser, mapComp);
         }
-
     }
 
-    public void ways(boolean first_way, boolean mode, Map map) {
-        Map mapEnemy;
-        mapEnemy = map;
-        if (first_way) System.out.println("User1 goes first!");
-        else if (mode) System.out.println("Computer goes first!");
+    public static void ways(boolean first_way, Map mapus, Map mapen) {
+        if (first_way) System.out.println(mapus.name + " goes first!");
+        else System.out.println(mapen.name + " goes first!");
         while (true) {
             if (first_way) {
-                if (!userWay(mapEnemy)) break;
-                if (isGameOver(true, mode, mapUser)) break;
-                if (mode) compWay();
-                else user2Way();
-                if (isGameOver(false, mode, mapEnemy)) break;
+                if (!userWay(mapus, mapen)) break;
+                if (isGameOver(mapus)) break;
+                compWay(mapus, mapen);
+                if (isGameOver(mapen)) break;
             }
             else {
-                if (mode) compWay();
-                else user2Way();
-                if (isGameOver(false, mode, mapEnemy)) break;
-                if (!userWay(mapEnemy)) break;
-                if (isGameOver(true, mode, mapUser)) break;
+                compWay(mapus, mapen);
+                if (isGameOver( mapen)) break;
+                if (!userWay(mapus, mapen)) break;
+                if (isGameOver(mapus)) break;
             }
         }
-        mapOut(mapUser);
-        mapOut(mapEnemy);
+        mapus.mapOut();
+        mapen.mapOut();
     }
 
-    public boolean isGameOver(boolean enemies, boolean mode, Map map) {
-        if (enemies) {
-            if (isMapEmpty(map)) {
-                System.out.println("User1 are win!!! HOORAY!!!");
-                System.out.println("Game over!");
-                return true;
+    public void web_game(Client user) {
+        int x, y;
+        String str;
+        Scanner scan;
+        mapUser.mapOut();
+//        mapen.mapOut(true);
+        mapUser2.mapOut();
+        while (true) {
+            scan = new Scanner(System.in);
+            str = (String) user.receive();
+            if (!str.equals("Input coordinates of cell (x, y): ")) System.out.println(str);
+            else {
+                System.out.print(str);
+                x = scan.nextInt();
+                y = scan.nextInt();
+                user.send(new int[]{x, y});
             }
+            if (str.equals(mapUser.name + " hit the ship!") | str.equals(mapUser.name + " killed the ship!") | str.equals(mapUser.name + " missed!")) {
+                System.out.println("OK 1");
+                mapUser2.map = (char[][]) user.receive();
+                mapUser.mapOut();
+//                mapen.mapOut(true);
+                mapUser2.mapOut();
+            }
+            else if (str.equals(mapUser2.name + " hit the ship!") | str.equals(mapUser2.name + " killed the ship!") | str.equals(mapUser2.name + " missed!")) {
+                System.out.println("OK 2");
+                mapUser.map = (char[][]) user.receive();
+                mapUser.mapOut();
+//                mapen.mapOut(true);
+                mapUser2.mapOut();
+            }
+            else if ((str.equals(mapUser.name + " won!!! Game over!")) | (str.equals(mapUser2.name + " are win!!! Game over!"))) break;
         }
-        else {
-            if (mode & isMapEmpty(map)) {
-                System.out.println("Computer are win!!! So sad :(");
-                System.out.println("Game over!");
-                return true;
-            }
-            else if (!mode & isMapEmpty(map)) {
-                System.out.println("User2 are win!!! So sad :(");
-                System.out.println("Game over!");
-                return true;
-            }
+    }
+
+    public static boolean isGameOver(Map map) {
+        if (isMapEmpty(map)) {
+            System.out.println(map.name + " are win!!! HOORAY!!! Game over!");
+            return true;
         }
         return false;
     }
 
-    public boolean isMapEmpty(Map map) {
+    public static boolean isMapEmpty(Map map) {
         for (int i = 0; i < map.map.length; i++) {
             for (int j = 0; j < map.map[i].length; j++) {
                 if (map.map[i][j] == 'S')
@@ -104,20 +125,21 @@ public class User_Interface {
         return true;
     }
 
-    public boolean userWay(Map mapEnemy) {
+    public static boolean userWay(Map userMap, Map mapEnemy) {
         int x, y;
-        mapOut(mapUser);
-        mapOut(mapEnemy, true);
-        System.out.println("User1 way:");
+        userMap.mapOut();
+        mapEnemy.mapOut(true);
+        System.out.println(userMap.name + " way:");
         System.out.println("To exit, input: -1 -1");
         System.out.print("Input coordinates of cell (x, y): ");
+        Scanner scan;
         while (true) {
             try {
                 scan = new Scanner(System.in);
                 x = scan.nextInt();
                 y = scan.nextInt();
                 if (x == -1 & y == -1) { // Выход из игры
-                    System.out.println("Draw!!! Game over!");
+                    System.out.println(mapEnemy.name + " won!!! So sad :( Game over!");
                     return false;
                 }
                 else if (x >= 10 | x < 0 | y >= 10 | y < 0) {
@@ -127,82 +149,56 @@ public class User_Interface {
                     break;
             }
             catch (InputMismatchException e) {
-                System.out.println("User1 are entered incorrect data!");
+                System.out.println(userMap.name + " are entered incorrect data!");
                 System.out.print("Input right coordinates: ");
             }
         }
         if (mapEnemy.map[x][y] == 'S') {
             mapEnemy.map[x][y] = '˟';
             if (!isKilled(mapEnemy, x, y))
-                System.out.println("User1 hit the ship!");
+                System.out.println(userMap.name + " hit the ship!");
             else
-                System.out.println("User1 killed the ship!");
-            return userWay(mapEnemy);
+                System.out.println(userMap.name + " killed the ship!");
+            return userWay(userMap, mapEnemy);
         }
         else if (mapEnemy.map[x][y] == ' ' | mapEnemy.map[x][y] == '·') {
-            System.out.println("User1 missed!");
+            System.out.println(userMap.name + " missed!");
             mapEnemy.map[x][y] = '·';
         }
         else if (mapEnemy.map[x][y] == '˟') {
-            System.out.println("User1 missed!");
+            System.out.println(userMap.name + " missed!");
         }
         return true;
     }
 
-    public void user2Way() {
+    public static void compWay(Map mapus, Map mapen) {
         int x, y;
-        mapOut(mapUser);
-//        mapOut(mapUser2, true);
-        System.out.println("User2 way:");
-        x = (int) (Math.random() * 10); // TODO: Нужно переделать для веб-сервера
-        y = (int) (Math.random() * 10); // TODO: Нужно переделать для веб-сервера
-        System.out.println("User2 chose the coordinates:");
-        System.out.println(x + " " + y);
-        if (mapUser.map[x][y] == 'S') {
-            mapUser.map[x][y] = '˟';
-            if (!isKilled(mapUser, x, y))
-                System.out.println("User2 hit the ship!");
-            else
-                System.out.println("User2 killed the ship!");
-            compWay();
-        }
-        else if (mapUser.map[x][y] == ' ' | mapUser.map[x][y] == '·') {
-            System.out.println("User2 missed!");
-            mapUser.map[x][y] = '·';
-        }
-        else if (mapUser.map[x][y] == '˟') {
-            System.out.println("User2 missed!");
-        }
-    }
-
-    public void compWay() {
-        int x, y;
-        mapOut(mapUser);
-        mapOut(mapComp, true);
-        System.out.println("Computer way:");
+        mapus.mapOut();
+        mapen.mapOut(true);
+        System.out.println(mapen.name + " way:");
         x = (int) (Math.random() * 10);
         y = (int) (Math.random() * 10);
-        while (mapUser.map[x][y] == '·' | mapUser.map[x][y] == '˟') {
+        while (mapus.map[x][y] == '·' | mapus.map[x][y] == '˟') {
             x = (int) (Math.random() * 10);
             y = (int) (Math.random() * 10);
         }
-        System.out.println("Computer chose the coordinates:");
+        System.out.println(mapen.name + " chose the coordinates:");
         System.out.println(x + " " + y);
-        if (mapUser.map[x][y] == 'S') {
-            mapUser.map[x][y] = '˟';
-            if (!isKilled(mapUser, x, y))
-                System.out.println("Computer hit the ship!");
+        if (mapus.map[x][y] == 'S') {
+            mapus.map[x][y] = '˟';
+            if (!isKilled(mapus, x, y))
+                System.out.println(mapen.name + " hit the ship!");
             else
-                System.out.println("Computer killed the ship!");
-            compWay();
+                System.out.println(mapen.name + " killed the ship!");
+            compWay(mapus, mapen);
         }
-        else if (mapUser.map[x][y] == ' ') {
-            System.out.println("Computer missed!");
-            mapUser.map[x][y] = '·';
+        else if (mapus.map[x][y] == ' ') {
+            System.out.println(mapen.name + " missed!");
+            mapus.map[x][y] = '·';
         }
     }
 
-    public boolean isKilled(Map map, int x, int y) {
+    public static boolean isKilled(Map map, int x, int y) {
         for (int i = 0; i < map.listships.length; i++) {
             for (int j = 0; j < map.listships[i].size; j++) {
                 if (map.listships[i].coords[j][0] == x & map.listships[i].coords[j][1] == y)
@@ -221,30 +217,5 @@ public class User_Interface {
             }
         }
         return false;
-    }
-
-    public void mapOut(Map map, boolean secret) {
-        System.out.print("  |");
-        for(int i = 0; i < map.map.length; i++) {
-            System.out.print(" " + i);
-        }
-        System.out.println();
-        for (int i = 0; i < 23; i++) {
-            System.out.print("͞");
-        }
-        System.out.println();
-        for (int i = 0; i < map.map.length; i++) {
-            System.out.print(i + " | " );
-            for (int j = 0; j < map.map.length; j++) {
-                if (map.map[i][j] == 'S' & secret) System.out.print("  ");
-                else System.out.print(map.map[i][j] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
-
-    public void mapOut(Map map) {
-        mapOut(map, false);
     }
 }

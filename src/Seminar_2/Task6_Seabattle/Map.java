@@ -1,9 +1,10 @@
 package Seminar_2.Task6_Seabattle;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Map {
-    public static class Ship {
+public class Map implements Serializable {
+    public static class Ship implements Serializable{
         int size, hit = 0;
         int xlu, ylu, xrd, yrd;
         boolean isVertically;
@@ -26,8 +27,10 @@ public class Map {
     int[] shipssizes = {0, 4, 3, 2, 1};
     int numberofships = 10;
     public Ship[] listships = new Ship[numberofships];
+    String name;
 
-    public Map() {
+    public Map(String name) {
+        this.name = name;
         for (int i = 0; i < mapsize; i++)
             for (int j = 0; j < mapsize; j++)
                 map[i][j] = ' ';
@@ -121,4 +124,26 @@ public class Map {
         ship.yrd = yrd;
         return true;
     }
+    public void mapOut(boolean secret) {
+        System.out.print("  |");
+        for(int i = 0; i < map.length; i++) {
+            System.out.print(" " + i);
+        }
+        System.out.println();
+        for (int i = 0; i < 23; i++) {
+            System.out.print("͞");
+        }
+        System.out.println();
+        for (int i = 0; i < map.length; i++) {
+            System.out.print(i + " | " );
+            for (int j = 0; j < map.length; j++) {
+                if (map[i][j] == 'S' & secret) System.out.print("  ");
+                else System.out.print(map[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    public void mapOut() { mapOut(false); }
 }

@@ -3,11 +3,12 @@ package Seminar_2.Task6_Seabattle;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Connect extends Thread{
-
+public class Connect extends Thread {
+    public String name;
     private Socket socket;
     private ObjectInputStream objectInputStream;
     private ObjectOutputStream objectOutputStream;
@@ -16,26 +17,20 @@ public class Connect extends Thread{
         this.socket = socket;
         objectInputStream = new ObjectInputStream(this.socket.getInputStream());
         objectOutputStream = new ObjectOutputStream(this.socket.getOutputStream());
-        start();
+//        start();
     }
 
     public void run() {
-        try {
-            while (true) {
-                Object clientMessage = (Map) objectInputStream.readObject();
-                System.out.println(clientMessage);
-//                send(new Scanner(System.in).nextLine());
-            }
-        } catch (IOException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        }
+        name = (String) receive();
+        send("ОК, " + name + ". You are connected to the server!");
     }
 
-    public void send(Object ... data) {
+    public void send(Object data) {
         try {
             objectOutputStream.writeObject(data);
         } catch (IOException e) {
             e.printStackTrace();
+//            System.out.println("Incorrect data type!");
         }
     }
 
@@ -44,6 +39,7 @@ public class Connect extends Thread{
             return objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+//            System.out.println("Incorrect data type!");
         }
         return null;
     }
