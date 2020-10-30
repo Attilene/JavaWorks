@@ -1,6 +1,7 @@
 package Seminar_2.Task6_Seabattle;
 
 import java.io.Serializable;
+import java.net.SocketException;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
@@ -38,10 +39,10 @@ public class User_Interface implements Serializable {
             user.connect();
             user.send(name);
             System.out.println(user.receive().toString());
-            mapUser = (Map) user.receive();
-            mapUser2 = (Map) user.receive();
+            mapUser2 = new Map(user.receive().toString());
+            mapUser.map = (char[][]) user.receive();
+            mapUser2.map = (char[][]) user.receive();
             web_game(user);
-//            mapUser.mapOut();
         }
         else {
             first_way = rd.nextBoolean();
@@ -77,34 +78,31 @@ public class User_Interface implements Serializable {
         String str;
         Scanner scan;
         mapUser.mapOut();
-//        mapen.mapOut(true);
-        mapUser2.mapOut();
-        while (true) {
-            scan = new Scanner(System.in);
-            str = (String) user.receive();
-            if (!str.equals("Input coordinates of cell (x, y): ")) System.out.println(str);
-            else {
-                System.out.print(str);
-                x = scan.nextInt();
-                y = scan.nextInt();
-                user.send(new int[]{x, y});
+        mapUser2.mapOut(true);
+        try {
+            while (true) {
+                scan = new Scanner(System.in);
+                str = (String) user.receive();
+                if (!str.equals("Input coordinates of cell (x, y): ")) System.out.println(str);
+                else {
+                    System.out.print(str);
+                    x = scan.nextInt();
+                    y = scan.nextInt();
+                    user.send(new int[]{x, y});
+                }
+                if (str.equals(mapUser.name + " hit the ship!") | str.equals(mapUser.name + " killed the ship!") | str.equals(mapUser.name + " missed!")) {
+                    mapUser2.map = (char[][]) user.receive();
+                    mapUser.mapOut();
+                    mapUser2.mapOut(true);
+                } else if (str.equals(mapUser2.name + " hit the ship!") | str.equals(mapUser2.name + " killed the ship!") | str.equals(mapUser2.name + " missed!")) {
+                    mapUser.map = (char[][]) user.receive();
+                    mapUser.mapOut();
+                    mapUser2.mapOut(true);
+                } else if ((str.equals(mapUser.name + " won!!! Game over!")) | (str.equals(mapUser2.name + " are win!!! Game over!")))
+                    break;
             }
-            if (str.equals(mapUser.name + " hit the ship!") | str.equals(mapUser.name + " killed the ship!") | str.equals(mapUser.name + " missed!")) {
-                System.out.println("OK 1");
-                mapUser2.map = (char[][]) user.receive();
-                mapUser.mapOut();
-//                mapen.mapOut(true);
-                mapUser2.mapOut();
-            }
-            else if (str.equals(mapUser2.name + " hit the ship!") | str.equals(mapUser2.name + " killed the ship!") | str.equals(mapUser2.name + " missed!")) {
-                System.out.println("OK 2");
-                mapUser.map = (char[][]) user.receive();
-                mapUser.mapOut();
-//                mapen.mapOut(true);
-                mapUser2.mapOut();
-            }
-            else if ((str.equals(mapUser.name + " won!!! Game over!")) | (str.equals(mapUser2.name + " are win!!! Game over!"))) break;
         }
+        catch (NullPointerException e) { System.out.print(""); }
     }
 
     public static boolean isGameOver(Map map) {

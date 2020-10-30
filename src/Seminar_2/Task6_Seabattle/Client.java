@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 
@@ -22,9 +23,7 @@ public class Client{
             this.name = name;
             address = InetAddress.getByName(Server.getHost());
             port = Server.getPort();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+        } catch (UnknownHostException e) { e.printStackTrace(); }
     }
 
     public void connect() {
@@ -32,25 +31,19 @@ public class Client{
             socket = new Socket(address, port);
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectInputStream = new ObjectInputStream(socket.getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+        catch (IOException e) { e.printStackTrace(); }
     }
 
     public void send(Object data) {
-        try {
-            objectOutputStream.writeObject(data);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        try { objectOutputStream.writeObject(data); }
+        catch (IOException e) { e.printStackTrace(); }
     }
 
     public Object receive() {
-        try {
-            return objectInputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        try { return objectInputStream.readObject(); }
+        catch (SocketException e) { System.out.println(); }
+        catch (IOException | ClassNotFoundException e) { e.printStackTrace(); }
         return null;
     }
 }

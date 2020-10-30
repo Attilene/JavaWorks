@@ -3,10 +3,10 @@ package Seminar_2.Task6_Seabattle;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Random;
-import java.util.Scanner;
 
 
 public class Server extends Thread{
@@ -47,10 +47,12 @@ public class Server extends Thread{
         System.out.println("Clients are connected");
         MapUser1.randomLoc();
         MapUser2.randomLoc();
-        Server.connects.get(0).send(MapUser1);
-        Server.connects.get(0).send(MapUser2);
-        Server.connects.get(1).send(MapUser2);
-        Server.connects.get(1).send(MapUser1);
+        Server.connects.get(0).send(MapUser2.name);
+        Server.connects.get(1).send(MapUser1.name);
+        Server.connects.get(0).send(MapUser1.getSecure());
+        Server.connects.get(0).send(MapUser2.getSecure(true));
+        Server.connects.get(1).send(MapUser2.getSecure());
+        Server.connects.get(1).send(MapUser1.getSecure(true));
         sendMessageAll("Start the game!");
         Random rd = new Random();
         first_way = rd.nextBoolean();
@@ -58,18 +60,19 @@ public class Server extends Thread{
         disconnect();
     }
 
-    public void sendMessageAll(String msg) {
+    private void sendMessageAll(String msg) {
         for(Connect client : connects) {
             client.send(msg);
         }
     }
 
-    public void disconnect() {
+    private void disconnect() {
         try { serverSocket.close(); }
+        catch (SocketException e) { System.out.println("Incorrect closing"); }
         catch (IOException e) { System.out.println("Incorrect closing!"); }
     }
 
-    public void ways(boolean first_way, Map mapus, Map mapen) {
+    private void ways(boolean first_way, Map mapus, Map mapen) {
         if (first_way) sendMessageAll(mapus.name + " goes first!");
         else sendMessageAll(mapen.name + " goes first!");
         while (true) {
@@ -86,11 +89,9 @@ public class Server extends Thread{
                 if (isGameOver(mapus)) break;
             }
         }
-        mapus.mapOut();
-        mapen.mapOut();
     }
 
-    public boolean isGameOver(Map map) {
+    private boolean isGameOver(Map map) {
         if (User_Interface.isMapEmpty(map)) {
             sendMessageAll(map.name + " are win!!! Game over!");
             return true;
@@ -98,20 +99,17 @@ public class Server extends Thread{
         return false;
     }
 
-    public boolean userWay(Map mapus, Map mapen) {
+    private boolean userWay(Map mapus, Map mapen) {
         int x, y;
         int[] coords;
         int index;
         if (mapus.name.equals(MapUser1.name)) index = 0;
         else index = 1;
-//        userMap.mapOut();
-//        mapEnemy.mapOut(true);
         sendMessageAll(mapus.name + "`s way:");
         Server.connects.get(index).send("To exit, input: -1 -1");
         Server.connects.get(index).send("Input coordinates of cell (x, y): ");
         while (true) {
             try {
-//                Server.connects.get(index).send("Hello");
                 coords = (int[]) Server.connects.get(index).receive();
                 x = coords[0];
                 y = coords[1];
@@ -134,6 +132,8 @@ public class Server extends Thread{
                 sendMessageAll(mapus.name + " hit the ship!");
             else
                 sendMessageAll(mapus.name + " killed the ship!");
+            Server.connects.get(index).send(mapen.getSecure(true));
+            Server.connects.get(Math.abs(index - 1)).send(mapen.getSecure());
             return userWay(mapus, mapen);
         }
         else if (mapen.map[x][y] == ' ' | mapen.map[x][y] == '·') {
@@ -143,14 +143,12 @@ public class Server extends Thread{
         else if (mapen.map[x][y] == '˟') {
             sendMessageAll(mapus.name + " missed!");
         }
-        Server.connects.get(index).send(mapen.map);
-        Server.connects.get(Math.abs(index - 1)).send(mapen.map);
-        mapus.mapOut();
-        mapen.mapOut();
+        Server.connects.get(index).send(mapen.getSecure(true));
+        Server.connects.get(Math.abs(index - 1)).send(mapen.getSecure());
         return true;
     }
 
-    public static boolean isStart() { return Server.connects.size() == 2; }
+    private static boolean isStart() { return Server.connects.size() == 2; }
 
     public static void main(String[] args) {
         Server server = new Server();

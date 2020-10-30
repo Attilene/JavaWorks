@@ -124,6 +124,24 @@ public class Map implements Serializable {
         ship.yrd = yrd;
         return true;
     }
+
+    public char[][] getSecure(boolean secret) {
+        char[][] bufmap = new char[mapsize][mapsize];
+        if (secret) {
+            for (int i = 0; i < bufmap.length; i++) {
+                for (int j = 0; j < bufmap[0].length; j++)
+                    if (map[i][j] == 'S') bufmap[i][j] = ' ';
+                    else bufmap[i][j] = map[i][j];
+            }
+        }
+        else
+            for (int i = 0; i < bufmap.length; i++)
+                System.arraycopy(map[i], 0, bufmap[i], 0, bufmap[0].length);
+        return bufmap;
+    }
+
+    public char[][] getSecure() { return getSecure(false); }
+
     public void mapOut(boolean secret) {
         System.out.print("  |");
         for(int i = 0; i < map.length; i++) {
