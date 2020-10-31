@@ -10,7 +10,7 @@ import java.util.Random;
 
 
 public class Server extends Thread{
-    private static final String HOST = "localhost";
+    private static final String HOST = "25.100.170.100";
     private static final int PORT = 5005;
     public static ArrayList<Connect> connects = new ArrayList<>();
     private ServerSocket serverSocket;

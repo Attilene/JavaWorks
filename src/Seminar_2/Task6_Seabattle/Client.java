@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 
 
 public class Client{
+    private static final String HOST = "25.100.170.100";
     private Socket socket;
     private ObjectInputStream objectInputStream;
     private ObjectOutputStream objectOutputStream;
@@ -21,7 +22,7 @@ public class Client{
     public Client(String name) {
         try {
             this.name = name;
-            address = InetAddress.getByName(Server.getHost());
+            address = InetAddress.getByName(HOST);
             port = Server.getPort();
         } catch (UnknownHostException e) { e.printStackTrace(); }
     }
