@@ -93,7 +93,7 @@ public class Server extends Thread{
 
     private boolean isGameOver(Map mapus, Map mapen) {
         if (User_Interface.isMapEmpty(mapen)) {
-            sendMessageAll(mapus.name + " are win!!! Game over!");
+            sendMessageAll(mapus.name + " won!!! Game over!");
             return true;
         }
         return false;
@@ -106,8 +106,8 @@ public class Server extends Thread{
         if (mapus.name.equals(MapUser1.name)) index = 0;
         else index = 1;
         sendMessageAll(mapus.name + "`s way:");
-        Server.connects.get(index).send("To exit, input: -1 -1");
-        Server.connects.get(index).send("Input coordinates of cell (x, y): ");
+        Server.connects.get(index).send("To exit, enter: -1 -1");
+        Server.connects.get(index).send("Enter coordinates of cell (x, y): ");
         while (true) {
             try {
                 coords = (int[]) Server.connects.get(index).receive();
@@ -122,10 +122,10 @@ public class Server extends Thread{
             }
             catch (InputMismatchException e) {
                 Server.connects.get(index).send(mapus.name + " are entered incorrect data!");
-                Server.connects.get(index).send("Input right coordinates: ");
+                Server.connects.get(index).send("Enter right coordinates: ");
             }
         }
-        Server.connects.get(Math.abs(index - 1)).send(mapus.name + " choose the coordinates: " + x + " " + y);
+        Server.connects.get(Math.abs(index - 1)).send(mapus.name + " selected the coordinates: " + x + " " + y);
         if (mapen.map[x][y] == 'S') {
             mapen.map[x][y] = '˟';
             if (!User_Interface.isKilled(mapen, x, y))

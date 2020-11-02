@@ -26,14 +26,14 @@ public class User_Interface implements Serializable {
             try {
                 System.out.println("Game modes:");
                 System.out.println("true - game against computer");
-                System.out.println("false - game against another gamer with network");
-                System.out.print("Choose game mode: ");
+                System.out.println("false - game against another player over the network");
+                System.out.print("Select the game mode: ");
                 scan = new Scanner(System.in);
                 mode = scan.nextBoolean();
                 break;
             }
             catch (InputMismatchException e)
-                { System.out.println("You are entered incorrect mode!"); }
+                { System.out.println("You entered the wrong mode!"); }
         }
         if (!mode) {
             try {
@@ -88,7 +88,7 @@ public class User_Interface implements Serializable {
             while (true) {
                 scan = new Scanner(System.in);
                 str = (String) user.receive();
-                if (!str.equals("Input coordinates of cell (x, y): ")) System.out.println(str);
+                if (!str.equals("Enter coordinates of cell (x, y): ")) System.out.println(str);
                 else {
                     System.out.print(str);
                     x = scan.nextInt();
@@ -103,7 +103,7 @@ public class User_Interface implements Serializable {
                     mapUser.map = (char[][]) user.receive();
                     mapUser.mapOut();
                     mapUser2.mapOut(true);
-                } else if ((str.equals(mapUser.name + " won!!! Game over!")) | (str.equals(mapUser2.name + " are win!!! Game over!")))
+                } else if ((str.equals(mapUser.name + " won!!! Game over!")) | (str.equals(mapUser2.name + " won!!! Game over!")))
                     break;
             }
         }
@@ -112,7 +112,7 @@ public class User_Interface implements Serializable {
 
     public static boolean isGameOver(Map mapus, Map mapen) {
         if (User_Interface.isMapEmpty(mapen)) {
-            System.out.println(mapus.name + " are win!!! HOORAY!!! Game over!");
+            System.out.println(mapus.name + " won!!! HOORAY!!! Game over!");
             return true;
         }
         return false;
@@ -133,8 +133,8 @@ public class User_Interface implements Serializable {
         userMap.mapOut();
         mapEnemy.mapOut(true);
         System.out.println(userMap.name + "`s way:");
-        System.out.println("To exit, input: -1 -1");
-        System.out.print("Input coordinates of cell (x, y): ");
+        System.out.println("To exit, enter: -1 -1");
+        System.out.print("Enter coordinates of cell (x, y): ");
         Scanner scan;
         while (true) {
             try {
@@ -152,8 +152,8 @@ public class User_Interface implements Serializable {
                     break;
             }
             catch (InputMismatchException e) {
-                System.out.println(userMap.name + " are entered incorrect data!");
-                System.out.print("Input right coordinates: ");
+                System.out.println(userMap.name + " entered incorrect data!");
+                System.out.print("Enter right coordinates: ");
             }
         }
         if (mapEnemy.map[x][y] == 'S') {
@@ -185,7 +185,7 @@ public class User_Interface implements Serializable {
             x = (int) (Math.random() * 10);
             y = (int) (Math.random() * 10);
         }
-        System.out.println(mapen.name + " chose the coordinates:");
+        System.out.println(mapen.name + " selected the coordinates:");
         System.out.println(x + " " + y);
         if (mapus.map[x][y] == 'S') {
             mapus.map[x][y] = '˟';
