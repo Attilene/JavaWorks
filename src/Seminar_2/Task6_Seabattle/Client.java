@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.net.*;
 
 
 public class Client{
@@ -24,7 +21,7 @@ public class Client{
             this.name = name;
             address = InetAddress.getByName(HOST);
             port = Server.getPort();
-        } catch (UnknownHostException e) { e.printStackTrace(); }
+        } catch (UnknownHostException e) { System.out.println("Server not found"); }
     }
 
     public void connect() {
@@ -33,18 +30,19 @@ public class Client{
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectInputStream = new ObjectInputStream(socket.getInputStream());
         }
-        catch (IOException e) { e.printStackTrace(); }
+        catch (ConnectException e) { System.out.println("Server is not running"); }
+        catch (IOException e) { System.out.println("Incorrect data type"); }
     }
 
     public void send(Object data) {
         try { objectOutputStream.writeObject(data); }
-        catch (IOException e) { e.printStackTrace(); }
+        catch (IOException e) { System.out.println("Incorrect data type"); }
     }
 
     public Object receive() {
         try { return objectInputStream.readObject(); }
         catch (SocketException e) { System.out.println(); }
-        catch (IOException | ClassNotFoundException e) { e.printStackTrace(); }
+        catch (IOException | ClassNotFoundException e) { System.out.println("Incorrect data type"); }
         return null;
     }
 }

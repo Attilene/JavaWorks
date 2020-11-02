@@ -1,6 +1,7 @@
 package Seminar_2.Task6_Seabattle;
 
 import java.io.Serializable;
+import java.net.ConnectException;
 import java.net.SocketException;
 import java.util.InputMismatchException;
 import java.util.Random;
@@ -35,14 +36,17 @@ public class User_Interface implements Serializable {
                 { System.out.println("You are entered incorrect mode!"); }
         }
         if (!mode) {
-            user = new Client(name);
-            user.connect();
-            user.send(name);
-            System.out.println(user.receive().toString());
-            mapUser2 = new Map(user.receive().toString());
-            mapUser.map = (char[][]) user.receive();
-            mapUser2.map = (char[][]) user.receive();
-            web_game(user);
+            try {
+                user = new Client(name);
+                user.connect();
+                user.send(name);
+                System.out.println(user.receive().toString());
+                mapUser2 = new Map(user.receive().toString());
+                mapUser.map = (char[][]) user.receive();
+                mapUser2.map = (char[][]) user.receive();
+                web_game(user);
+            }
+            catch (NullPointerException e) { System.out.print(""); }
         }
         else {
             first_way = rd.nextBoolean();
@@ -50,6 +54,7 @@ public class User_Interface implements Serializable {
             mapComp.randomLoc();
             ways(first_way, mapUser, mapComp);
         }
+        newGame();
     }
 
     public static void ways(boolean first_way, Map mapus, Map mapen) {
