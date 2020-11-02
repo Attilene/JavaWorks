@@ -78,22 +78,22 @@ public class Server extends Thread{
         while (true) {
             if (first_way) {
                 if (!userWay(mapus, mapen)) break;
-                if (isGameOver(mapus)) break;
+                if (isGameOver(mapus, mapen)) break;
                 if (!userWay(mapen, mapus)) break;
-                if (isGameOver(mapen)) break;
+                if (isGameOver(mapen, mapus)) break;
             }
             else {
                 if (!userWay(mapen, mapus)) break;
-                if (isGameOver( mapen)) break;
+                if (isGameOver(mapen, mapus)) break;
                 if (!userWay(mapus, mapen)) break;
-                if (isGameOver(mapus)) break;
+                if (isGameOver(mapus, mapen)) break;
             }
         }
     }
 
-    private boolean isGameOver(Map map) {
-        if (User_Interface.isMapEmpty(map)) {
-            sendMessageAll(map.name + " are win!!! Game over!");
+    private boolean isGameOver(Map mapus, Map mapen) {
+        if (User_Interface.isMapEmpty(mapen)) {
+            sendMessageAll(mapus.name + " are win!!! Game over!");
             return true;
         }
         return false;

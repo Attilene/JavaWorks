@@ -58,15 +58,15 @@ public class User_Interface implements Serializable {
         while (true) {
             if (first_way) {
                 if (!userWay(mapus, mapen)) break;
-                if (isGameOver(mapus)) break;
+                if (isGameOver(mapus, mapen)) break;
                 compWay(mapus, mapen);
-                if (isGameOver(mapen)) break;
+                if (isGameOver(mapen, mapus)) break;
             }
             else {
                 compWay(mapus, mapen);
-                if (isGameOver( mapen)) break;
+                if (isGameOver(mapen, mapus)) break;
                 if (!userWay(mapus, mapen)) break;
-                if (isGameOver(mapus)) break;
+                if (isGameOver(mapus, mapen)) break;
             }
         }
         mapus.mapOut();
@@ -105,9 +105,9 @@ public class User_Interface implements Serializable {
         catch (NullPointerException e) { System.out.print(""); }
     }
 
-    public static boolean isGameOver(Map map) {
-        if (isMapEmpty(map)) {
-            System.out.println(map.name + " are win!!! HOORAY!!! Game over!");
+    public static boolean isGameOver(Map mapus, Map mapen) {
+        if (User_Interface.isMapEmpty(mapen)) {
+            System.out.println(mapus.name + " are win!!! HOORAY!!! Game over!");
             return true;
         }
         return false;
@@ -127,7 +127,7 @@ public class User_Interface implements Serializable {
         int x, y;
         userMap.mapOut();
         mapEnemy.mapOut(true);
-        System.out.println(userMap.name + " way:");
+        System.out.println(userMap.name + "`s way:");
         System.out.println("To exit, input: -1 -1");
         System.out.print("Input coordinates of cell (x, y): ");
         Scanner scan;
