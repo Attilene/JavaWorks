@@ -48,10 +48,6 @@ public class Recursion {
 
     public static double equation(Equation functionEq) { return equation(functionEq, 0, 10, 0.001); }
 
-    public static void binaryTreeSearch() {
-        
-    }
-
     public static void main(String[] args) {
 //        Recursion.allNumber(50);
         ArrayList<Integer> arr = new ArrayList<>();
@@ -66,7 +62,26 @@ public class Recursion {
 //        System.out.println(elemInArr1(arr, 3));
         arr.sort(Comparator.comparingInt(x -> x));
 //        System.out.println(elemInArr2(arr, -1));
-        Equation func = (x) -> Math.pow(x, 2) - 89 * x + 21;
-        System.out.printf("%.3f",equation(func));
+//        Equation func = (x) -> Math.pow(x, 2) - 89 * x + 21;
+//        System.out.printf("%.3f",equation(func));
+        BinaryTreeSearch<String> bts = new BinaryTreeSearch<>();
+        bts.add(10, "Dima");
+        bts.add(35, "Artem");
+        bts.add(3, "search");
+        bts.add(71, "rain");
+        bts.add(11, "tree");
+        bts.add(15, "window");
+        bts.add(8, "bank");
+//        bts.traverseInOrder();
+//        bts.traversePreOrder();
+//        bts.traversePostOrder();
+        bts.traverseLevelOrder();
+//        String res = bts.search(8);
+//        if (res == null) System.out.println("Нет такого ключа");
+//        else System.out.println(res);
+//        bts.delete(10);
+//        res = bts.search(11);
+//        if (res == null) System.out.println("Нет такого ключа");
+//        else System.out.println(res);
     }
 }
