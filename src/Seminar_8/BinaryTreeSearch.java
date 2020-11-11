@@ -63,40 +63,40 @@ public class BinaryTreeSearch<T>{
         return cur;
     }
 
-    public void traverseInOrder(Node<T> node) {
-        if (node != null) {
-            traverseInOrder(node.left);
-            System.out.println(node.key + " " + node.value);
-            traverseInOrder(node.right);
+    public void traverseInOrder(Node<T> first_node) {
+        if (first_node != null) {
+            traverseInOrder(first_node.left);
+            System.out.println(first_node.key + " " + first_node.value);
+            traverseInOrder(first_node.right);
         }
     }
 
     public void traverseInOrder() { traverseInOrder(root); }
 
-    public void traversePreOrder(Node<T> node) {
-        if (node != null) {
-            System.out.println(node.key + " " + node.value);
-            traversePreOrder(node.left);
-            traversePreOrder(node.right);
+    public void traversePreOrder(Node<T> first_node) {
+        if (first_node != null) {
+            System.out.println(first_node.key + " " + first_node.value);
+            traversePreOrder(first_node.left);
+            traversePreOrder(first_node.right);
         }
     }
 
     public void traversePreOrder() { traversePreOrder(root); }
 
-    public void traversePostOrder(Node<T> node) {
-        if (node != null) {
-            traversePostOrder(node.left);
-            traversePostOrder(node.right);
-            System.out.println(node.key + " " + node.value);
+    public void traversePostOrder(Node<T> first_node) {
+        if (first_node != null) {
+            traversePostOrder(first_node.left);
+            traversePostOrder(first_node.right);
+            System.out.println(first_node.key + " " + first_node.value);
         }
     }
 
     public void traversePostOrder() { traversePostOrder(root); }
 
-    public void traverseLevelOrder() {
-        if (root == null) return;
+    public void traverseLevelOrder(Node<T> first_node) {
+        if (first_node == null) return;
         Queue<Node<T>> nodes = new LinkedList<>();
-        nodes.add(root);
+        nodes.add(first_node);
         while (!nodes.isEmpty()) {
             Node<T> node = nodes.remove();
             System.out.println(node.key + " " + node.value);
@@ -104,4 +104,6 @@ public class BinaryTreeSearch<T>{
             if (node.right != null) nodes.add(node.right);
         }
     }
+
+    public void traverseLevelOrder() { traverseLevelOrder(root); }
 }
