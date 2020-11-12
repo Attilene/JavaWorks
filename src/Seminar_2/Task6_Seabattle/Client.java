@@ -8,7 +8,7 @@ import java.net.*;
 
 
 public class Client{
-    private static final String HOST = "25.100.170.100";
+    private static final String HOST = Server.getHost();
     private Socket socket;
     private ObjectInputStream objectInputStream;
     private ObjectOutputStream objectOutputStream;

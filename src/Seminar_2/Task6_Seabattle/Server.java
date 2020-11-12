@@ -10,12 +10,12 @@ import java.util.Random;
 
 
 public class Server extends Thread{
-    private static final String HOST = "25.100.170.100";
+//    private static final String HOST = "25.100.170.100";
+    private static final String HOST = "localhost";
     private static final int PORT = 5005;
     public static ArrayList<Connect> connects = new ArrayList<>();
     private ServerSocket serverSocket;
     private Map MapUser1, MapUser2;
-    private boolean first_way;
 
     static public int getPort() { return PORT; }
     static public String getHost() { return HOST; }
@@ -25,9 +25,7 @@ public class Server extends Thread{
             InetAddress address = InetAddress.getByName(HOST);
             serverSocket = new ServerSocket(PORT, 0, address);
             System.out.println("Server is running: " + serverSocket.getLocalSocketAddress());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException e) { System.out.println("Incorrect closing!"); }
     }
 
     public void run() {
@@ -55,9 +53,10 @@ public class Server extends Thread{
         Server.connects.get(1).send(MapUser1.getSecure(true));
         sendMessageAll("Start the game!");
         Random rd = new Random();
-        first_way = rd.nextBoolean();
+        boolean first_way = rd.nextBoolean();
         ways(first_way, MapUser1, MapUser2);
-        disconnect();
+        killThreads();
+        run();
     }
 
     private void sendMessageAll(String msg) {
@@ -149,6 +148,12 @@ public class Server extends Thread{
     }
 
     private static boolean isStart() { return Server.connects.size() == 2; }
+
+    private static void killThreads() {
+        for (Connect conn: Server.connects)
+            conn.interrupt();
+        Server.connects.clear();
+    }
 
     public static void main(String[] args) {
         Server server = new Server();
